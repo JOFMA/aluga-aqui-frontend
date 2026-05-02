@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Items from './pages/Items';
+import CreateItem from './pages/CreateItem';
 import './App.css';
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/items" element={<Items />} />
+          <Route path="/create-item" element={<CreateItem />} />
         </Routes>
       </div>
     </Router>
