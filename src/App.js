@@ -6,6 +6,7 @@ import Register from './pages/Register';
 import Items from './pages/Items';
 import CreateItem from './pages/CreateItem';
 import './App.css';
+import ItemDetail from './pages/ItemDetail';
 
 function App() {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -49,6 +50,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/items" element={<Items />} />
           <Route path="/create-item" element={<CreateItem />} />
+          <Route path="/items/:id" element={<ItemDetail />} />
         </Routes>
       </div>
     </Router>
