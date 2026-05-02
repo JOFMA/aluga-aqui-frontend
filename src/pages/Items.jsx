@@ -12,8 +12,10 @@ export default function Items() {
 
   const fetchItems = async () => {
     try {
+      console.log('Buscando de:', process.env.REACT_APP_API_URL);
       const response = await api.get('/items');
-      setItems(response.data.items);
+      console.log('Resposta:', response.data);
+      setItems(response.data.items || response.data);
       setLoading(false);
     } catch (error) {
       console.error('Erro ao buscar itens:', error);
