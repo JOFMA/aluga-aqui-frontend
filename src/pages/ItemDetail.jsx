@@ -29,9 +29,9 @@ export default function ItemDetail() {
   const user = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
-    fetchItem();
-  }, [id]);
-
+      fetchItem();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id]);
   const fetchItem = async () => {
     try {
       const response = await api.get(`/items/${id}`);
