@@ -37,10 +37,16 @@ export default function ItemDetail() {
 
   const fetchItem = async () => {
     try {
+      console.log('🔍 Buscando item com ID:', id);
+      console.log('📡 URL da API:', process.env.REACT_APP_API_URL);
       const response = await api.get(`/items/${id}`);
+      console.log('✅ Resposta da API:', response.data);
       setItem(response.data);
+      setError('');
     } catch (err) {
-      setError('Item não encontrado.');
+      console.error('❌ Erro ao buscar item:', err);
+      console.error('Detalhes do erro:', err.response?.data);
+      setError(err.response?.data?.error || 'Item não encontrado.');
     } finally {
       setLoading(false);
     }
@@ -67,6 +73,14 @@ export default function ItemDetail() {
     <div style={styles.center}>
       <span style={{ fontSize: '48px' }}>😕</span>
       <p style={{ color: '#dc2626', marginTop: '12px' }}>{error}</p>
+      <Link to="/items" style={styles.backBtn}>← Voltar para itens</Link>
+    </div>
+  );
+
+  if (!item) return (
+    <div style={styles.center}>
+      <span style={{ fontSize: '48px' }}>⚠️</span>
+      <p style={{ color: '#dc2626', marginTop: '12px' }}>Nenhum item foi carregado</p>
       <Link to="/items" style={styles.backBtn}>← Voltar para itens</Link>
     </div>
   );
@@ -129,7 +143,7 @@ export default function ItemDetail() {
               )}
               <div style={styles.detailItem}>
                 <span style={styles.detailLabel}>Avaliação</span>
-                <span style={styles.detailValue}>⭐ {item.rating} ({item.reviews} avaliações)</span>
+                <span style={styles.detailValue}>⭐ {item.rating || 'N/A'} ({item.reviews || 0} avaliações)</span>
               </div>
             </div>
 
@@ -190,7 +204,7 @@ const styles = {
   imageWrapper: { position: 'relative', minHeight: '400px', backgroundColor: '#f9fafb' },
   image: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' },
   imagePlaceholder: { width: '100%', height: '100%', minHeight: '400px', background: 'linear-gradient(135deg, #dbeafe, #ede9fe)', display: 'flex', alignItems: 'center', justifyContent: 'center' },
-  categoryBadge: { position: 'absolute', top: '16px', left: '16px', backgroundColor: 'white', padding: '6px 14px', borderRadius: '20px', fontSize: '13px', fontWeight: '600', boxShadow: '0 2px 8px rgba(0,0,0,0.12)', textTransform: 'capitalize' },
+  categoryBadge: { position: 'absolute', top: '16px', left: '16px', backgroundColor: 'white', padding: '6px 14px', borderRadius: '20px', fontSize: '13px', fontWeight: '600', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' },
   content: { padding: '32px', display: 'flex', flexDirection: 'column', gap: '20px' },
   topRow: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px' },
   name: { fontSize: '26px', fontWeight: 'bold', color: '#111827', margin: 0, lineHeight: 1.2 },
@@ -204,12 +218,12 @@ const styles = {
   detailLabel: { fontSize: '12px', color: '#9ca3af', fontWeight: '600', textTransform: 'uppercase' },
   detailValue: { fontSize: '15px', color: '#111827', fontWeight: '600' },
   ownerBox: { display: 'flex', alignItems: 'center', gap: '14px', padding: '16px', border: '1px solid #e5e7eb', borderRadius: '12px' },
-  ownerAvatar: { width: '48px', height: '48px', borderRadius: '50%', backgroundColor: '#2563eb', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', fontWeight: 'bold', flexShrink: 0 },
+  ownerAvatar: { width: '48px', height: '48px', borderRadius: '50%', backgroundColor: '#2563eb', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', fontWeight: 'bold' },
   ownerLabel: { fontSize: '12px', color: '#9ca3af', margin: 0 },
   ownerName: { fontSize: '15px', fontWeight: '700', color: '#111827', margin: '2px 0' },
   ownerContact: { fontSize: '13px', color: '#6b7280', margin: 0 },
   actions: { display: 'flex', gap: '12px', marginTop: 'auto' },
   rentBtn: { flex: 1, padding: '14px', background: 'linear-gradient(to right, #2563eb, #7c3aed)', color: 'white', border: 'none', borderRadius: '10px', fontSize: '16px', fontWeight: '700', cursor: 'pointer' },
-  editBtn: { flex: 1, padding: '14px', backgroundColor: '#2563eb', color: 'white', border: 'none', borderRadius: '10px', fontSize: '15px', fontWeight: '700', cursor: 'pointer', textDecoration: 'none', textAlign: 'center' },
+  editBtn: { flex: 1, padding: '14px', backgroundColor: '#2563eb', color: 'white', border: 'none', borderRadius: '10px', fontSize: '15px', fontWeight: '700', cursor: 'pointer', textDecoration: 'none', display: 'inline-block', textAlign: 'center' },
   deleteBtn: { padding: '14px 20px', backgroundColor: '#fef2f2', color: '#dc2626', border: '1px solid #fecaca', borderRadius: '10px', fontSize: '15px', fontWeight: '700', cursor: 'pointer' },
 };
